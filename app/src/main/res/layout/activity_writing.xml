@@ -109,7 +109,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+
             android:textSize="17dp"
+            android:ems="14"
             android:layout_weight="9"
             android:hint="오늘 꼭 해야 할일을 적어주세요." />
 
@@ -118,6 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/shadow"
             android:text="확인"
             android:textColor="@color/black"
