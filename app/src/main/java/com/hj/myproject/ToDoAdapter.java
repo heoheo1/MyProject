@@ -17,6 +17,7 @@ import java.util.List;
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder> {
 
     List<String> data = new ArrayList<>();
+    int gradient=0;
 
     @NonNull
     @Override
@@ -38,6 +39,11 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     public void setData(ArrayList<String> data){
         this.data = data;
     }
+
+    public  void setgradient(int gradient){
+        this.gradient=gradient;
+    }
+
 
     class ToDoViewHolder extends RecyclerView.ViewHolder{
         CheckBox checkToDo;

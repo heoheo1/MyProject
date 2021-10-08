@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:angle="180"
+        android:endColor="#882e8b57"
+        android:startColor="#ffffff" />
+
+    <!--    android:angle="0"-->
+    <!-- angle 0 으로 맞추면 가로 90 은 세로-->
+    <!-- 88ffe3ee 연한핑크 , ff87cefa 라이트 스카이블루 ,882e8b57 씨그린-->
+
+</shape>

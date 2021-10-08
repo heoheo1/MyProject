@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints" />
+         />
     <LinearLayout
         android:id="@+id/lz"
         android:layout_width="match_parent"
@@ -84,6 +84,7 @@
             android:layout_gravity="center"
             />
 
+
     </LinearLayout>
 
 
@@ -112,7 +113,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/bg_corners_white"
         android:elevation="2dp"
@@ -158,6 +158,99 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/re_View"
         app:layout_constraintVertical_bias="0.636" />
+
+
+
+
+
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fb_powderblue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:tint="@null"
+        app:borderWidth="0dp"
+        android:backgroundTint="#b0e0e6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:fabSize="mini"
+        app:rippleColor="#ffffff"
+        app:pressedTranslationZ="24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fb_pink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:tint="@null"
+        app:borderWidth="0dp"
+        android:backgroundTint="#ffe3ee"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:fabSize="mini"
+        app:rippleColor="#ffffff"
+        app:pressedTranslationZ="24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fb_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:tint="@null"
+        app:borderWidth="0dp"
+        android:backgroundTint="#87cefa"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:fabSize="mini"
+        app:rippleColor="#ffffff"
+        app:pressedTranslationZ="24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fb_green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:tint="@null"
+        app:borderWidth="0dp"
+        android:backgroundTint="#2e8b57"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:fabSize="mini"
+        app:rippleColor="#ffffff"
+        app:pressedTranslationZ="24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fb_gold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:tint="@null"
+        app:borderWidth="0dp"
+        android:backgroundTint="#daa520"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:fabSize="mini"
+        app:rippleColor="#ffffff"
+        app:pressedTranslationZ="24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fb_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:backgroundTint="@color/white"
+        android:src="@drawable/ic_baseline_color_lens_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:pressedTranslationZ="24dp"
+        app:rippleColor="#ffffff"
+        />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
