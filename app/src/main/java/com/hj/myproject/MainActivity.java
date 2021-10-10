@@ -6,10 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -46,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
         fb_powderblue=findViewById(R.id.fb_powderblue);
         fb_gold=findViewById(R.id.fb_gold);
 
+        fb_green.setOnClickListener(v -> {
+            adapter.setgradient(1); //변수로 저장 다음에도 사용
+            adapter.notifyDataSetChanged();
+        });
+        fb_blue.setOnClickListener(v->{
+            adapter.setgradient(2);
+            adapter.notifyDataSetChanged();
+        });
+
         fb_btn.setOnClickListener(v -> {
             toggleFab();
         });
@@ -54,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
             Window window = dialog.getWindow();
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
         });
 
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { //dialog가 dismiss시 발동한다.

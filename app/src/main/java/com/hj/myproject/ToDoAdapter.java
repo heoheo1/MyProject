@@ -1,13 +1,16 @@
 package com.hj.myproject;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +20,7 @@ import java.util.List;
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder> {
 
     List<String> data = new ArrayList<>();
-    int gradient=0;
+    int gradient;
 
     @NonNull
     @Override
@@ -29,6 +32,11 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     @Override
     public void onBindViewHolder(@NonNull ToDoViewHolder holder, int position) {
         holder.checkToDo.setText(data.get(position));
+        if(gradient==1) {
+            holder.re_grd.setBackgroundResource(R.drawable.gradientgreen);
+        }else if(gradient==2){
+            holder.re_grd.setBackgroundResource(R.drawable.gradientblue);
+        }
     }
 
     @Override
@@ -48,11 +56,14 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     class ToDoViewHolder extends RecyclerView.ViewHolder{
         CheckBox checkToDo;
         Switch aSwitch;
+        RelativeLayout re_grd;
 
         public ToDoViewHolder(@NonNull View itemView) {
             super(itemView);
             checkToDo = itemView.findViewById(R.id.check_box);
             aSwitch = itemView.findViewById(R.id.todo_switch);
+            re_grd =itemView.findViewById(R.id.re_grd);
+
         }
     }
 }
