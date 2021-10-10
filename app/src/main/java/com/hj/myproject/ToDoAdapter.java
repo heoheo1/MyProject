@@ -41,10 +41,16 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     @Override
     public void onBindViewHolder(@NonNull ToDoViewHolder holder, int position) {
         holder.checkToDo.setText(data.get(position));
-        if(gradient==1) {
+        if(gradient==0) {
+            holder.re_grd.setBackgroundResource(R.drawable.gradientpink);
+        }else if(gradient==1){
             holder.re_grd.setBackgroundResource(R.drawable.gradientgreen);
         }else if(gradient==2){
             holder.re_grd.setBackgroundResource(R.drawable.gradientblue);
+        }else if(gradient==3){
+            holder.re_grd.setBackgroundResource(R.drawable.gradientpowderblue);
+        }else if(gradient==4){
+            holder.re_grd.setBackgroundResource(R.drawable.gradientgold);
         }
         holder.checkToDo.setOnLongClickListener(v -> { //길게 클릭하였을때 (checkBox가 view의 크기의 대부분을 차지하고 있어서 checkBox로 사용)
             db.delete(today,data.get(position)); // today날짜의 todo의 내용과 같은걸 지운다.

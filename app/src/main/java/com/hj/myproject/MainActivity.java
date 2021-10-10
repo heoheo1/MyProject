@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btn_write;
     WritingActivity dialog;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     int gradient =0 ;
     boolean isFabOpen=true;
     String tableName;
+    ToDoAdapter adapter;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +49,15 @@ public class MainActivity extends AppCompatActivity {
         String today = setToday();
 
         init(today);
-        ToDoAdapter adapter = createAdapter(today);
+        adapter = createAdapter(today);
         ArrayList<String> data = db.select(today);
-
         setMainPage(adapter,today);
         adapter.setData(data);
 
-//        adapter.setgradient();
-
-        fb_btn=findViewById(R.id.fb_btn);
-        fb_pink=findViewById(R.id.fb_pink);
-        fb_green=findViewById(R.id.fb_green);
-        fb_blue=findViewById(R.id.fb_blue);
-        fb_powderblue=findViewById(R.id.fb_powderblue);
-        fb_gold=findViewById(R.id.fb_gold);
-
-        fb_btn.setOnClickListener(v -> {
-            toggleFab();
-        });
+        sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
+        gradient=sharedPreferences.getInt("gradient",0);
+        adapter.setgradient(gradient);
+        adapter.notifyDataSetChanged();
 
         btn_write.setOnClickListener(v -> {
             dialog.show();
@@ -85,23 +79,23 @@ public class MainActivity extends AppCompatActivity {
         Button btnNotToDo = findViewById(R.id.btnNotToDoList);
 
         View.OnClickListener listener = v -> {
-          switch(v.getId()){
-              case R.id.btnToDoList :
-                  btnToDo.setBackgroundResource(R.drawable.button_corners3);
-                  btnToDo.setTextColor(Color.parseColor("#e1918b"));
-                  btnNotToDo.setBackgroundResource(R.drawable.button_corners2);
-                  btnNotToDo.setTextColor(Color.BLACK);
-                  break;
-              case R.id.btnNotToDoList:
-                  btnToDo.setBackgroundResource(R.drawable.button_corners2);
-                  btnToDo.setTextColor(Color.BLACK);
-                  btnNotToDo.setBackgroundResource(R.drawable.button_corners3);
-                  btnNotToDo.setTextColor(Color.parseColor("#e1918b"));
-                  break;
-          }
+            switch(v.getId()){
+                case R.id.btnToDoList :
+                    btnToDo.setBackgroundResource(R.drawable.button_corners3);
+                    btnToDo.setTextColor(Color.parseColor("#e1918b"));
+                    btnNotToDo.setBackgroundResource(R.drawable.button_corners2);
+                    btnNotToDo.setTextColor(Color.BLACK);
+                    break;
+                case R.id.btnNotToDoList:
+                    btnToDo.setBackgroundResource(R.drawable.button_corners2);
+                    btnToDo.setTextColor(Color.BLACK);
+                    btnNotToDo.setBackgroundResource(R.drawable.button_corners3);
+                    btnNotToDo.setTextColor(Color.parseColor("#e1918b"));
+                    break;
+            }
             db.tableChange();
-          adapter.setData(db.select(today));
-          adapter.notifyDataSetChanged();
+            adapter.setData(db.select(today));
+            adapter.notifyDataSetChanged();
         };
 
         btnToDo.setOnClickListener(listener);
@@ -111,6 +105,18 @@ public class MainActivity extends AppCompatActivity {
     private void init(String today){ //초기화
         btn_write=findViewById(R.id.btn_write);
         recyclerView = findViewById(R.id.re_View);
+        fb_btn =findViewById(R.id.fb_btn);
+        fb_btn.setOnClickListener(this);
+        fb_pink=findViewById(R.id.fb_pink);
+        fb_pink.setOnClickListener(this);
+        fb_green=findViewById(R.id.fb_green);
+        fb_green.setOnClickListener(this);
+        fb_blue=findViewById(R.id.fb_blue);
+        fb_blue.setOnClickListener(this);
+        fb_powderblue=findViewById(R.id.fb_powderblue);
+        fb_powderblue.setOnClickListener(this);
+        fb_gold= findViewById(R.id.fb_gold);
+        fb_gold.setOnClickListener(this);
         db = new ToDoDatabase(this,"data",null,1);
         dialog = new WritingActivity(MainActivity.this,today,db);
     }
@@ -149,6 +155,41 @@ public class MainActivity extends AppCompatActivity {
 //            fab.setImageResource(R.drawable.ic_sub);//마이너스 표시
         }
         isFabOpen = !isFabOpen;
+    }
+
+    private void fab(int gradient){
+        adapter.setgradient(gradient); //변수로 저장 다음에도 사용
+        sharedPreferences =getSharedPreferences("pref",MODE_PRIVATE);
+        SharedPreferences.Editor editor =sharedPreferences.edit();
+        editor.putInt("gradient",gradient);
+        editor.commit();
+        adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case (R.id.fb_btn):
+                toggleFab();
+                break;
+            case (R.id.fb_pink):
+                fab(0);
+                break;
+            case (R.id.fb_green):
+                fab(1);
+                break;
+            case (R.id.fb_blue):
+                fab(2);
+                break;
+            case (R.id.fb_powderblue):
+                fab(3);
+                break;
+            case (R.id.fb_gold):
+                fab(4);
+                break;
+
+        }
     }
 
 }
