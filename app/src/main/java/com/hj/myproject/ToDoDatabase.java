@@ -80,6 +80,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
         Log.d("yousin","바뀐후 : "+tableName);
     }
 
+    //현재 테이블 확인
     public void currentTable(){
         Log.d("yousin","현재 테이블 : "+tableName);
     }
