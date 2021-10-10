@@ -26,8 +26,8 @@ public class ToDoDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS tblToDo(date TEXT, todo TEXT PRIMARY KEY)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS tblNotToDo(date TEXT, todo TEXT PRIMARY KEY)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS tblToDo (date TEXT, todo TEXT PRIMARY KEY)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS tblNotToDo (date TEXT, todo TEXT PRIMARY KEY)");
     }
 
     @Override

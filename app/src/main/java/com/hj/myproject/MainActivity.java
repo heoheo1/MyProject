@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         Button btnToDo = findViewById(R.id.btnToDoList);
         Button btnNotToDo = findViewById(R.id.btnNotToDoList);
 
-        //버튼 클릭시!
         View.OnClickListener listener = v -> {
           switch(v.getId()){
               case R.id.btnToDoList :
@@ -93,18 +91,17 @@ public class MainActivity extends AppCompatActivity {
                   btnToDo.setTextColor(Color.parseColor("#e1918b"));
                   btnNotToDo.setBackgroundResource(R.drawable.button_corners2);
                   btnNotToDo.setTextColor(Color.BLACK);
-                  tableName = "tblToDo";
                   break;
               case R.id.btnNotToDoList:
                   btnToDo.setBackgroundResource(R.drawable.button_corners2);
                   btnToDo.setTextColor(Color.BLACK);
                   btnNotToDo.setBackgroundResource(R.drawable.button_corners3);
                   btnNotToDo.setTextColor(Color.parseColor("#e1918b"));
-                  tableName = "tblNotToDo";
                   break;
           }
-          db.setTableName(tableName);
-          adapter.setData(db.select(today)); // 바뀐 테이블을 select를 통해 adapter의 데이터로 사용하기기          adapter.notifyDataSetChanged();
+            db.tableChange();
+          adapter.setData(db.select(today));
+          adapter.notifyDataSetChanged();
         };
 
         btnToDo.setOnClickListener(listener);
