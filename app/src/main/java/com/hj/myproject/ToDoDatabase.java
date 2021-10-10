@@ -70,14 +70,9 @@ public class ToDoDatabase extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    public void tableChange(){
+    public void setTableName(String tableName){
         Log.d("yousin",tableName);
-        if(tableName.equals("tblToDo")){
-            tableName = "tblNotToDo";
-        }else{
-            tableName = "tblToDo";
-        }
-        Log.d("yousin","바뀐후 : "+tableName);
+        this.tableName = tableName;
     }
 
     //현재 테이블 확인
