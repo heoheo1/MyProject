@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programming/Android/MyProject/app/src/main/res/drawable/button_corners3.xml" value="0.38229166666666664" />
         <entry key="..\:/Programming/Android/MyProject/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Programming/Android/MyProject/app/src/main/res/layout/activity_writing.xml" value="0.36614583333333334" />
         <entry key="..\:/Programming/Android/MyProject/app/src/main/res/layout/card_item.xml" value="0.36614583333333334" />
+        <entry key="..\:/Programming/Android/MyProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.38229166666666664" />
       </map>
     </option>
   </component>

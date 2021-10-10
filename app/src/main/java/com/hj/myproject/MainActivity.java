@@ -6,19 +6,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     ToDoDatabase db;
     int gradient =0 ;
     boolean isFabOpen=true;
+    String tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +44,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String today = setToday();
+
         init(today);
-        ToDoAdapter adapter = createAdapter();
+        ToDoAdapter adapter = createAdapter(today);
         ArrayList<String> data = db.select(today);
+
+        setMainPage(adapter,today);
         adapter.setData(data);
+
 //        adapter.setgradient();
 
         fb_btn=findViewById(R.id.fb_btn);
@@ -49,15 +61,6 @@ public class MainActivity extends AppCompatActivity {
         fb_powderblue=findViewById(R.id.fb_powderblue);
         fb_gold=findViewById(R.id.fb_gold);
 
-        fb_green.setOnClickListener(v -> {
-            adapter.setgradient(1); //변수로 저장 다음에도 사용
-            adapter.notifyDataSetChanged();
-        });
-        fb_blue.setOnClickListener(v->{
-            adapter.setgradient(2);
-            adapter.notifyDataSetChanged();
-        });
-
         fb_btn.setOnClickListener(v -> {
             toggleFab();
         });
@@ -66,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
             Window window = dialog.getWindow();
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-
         });
 
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { //dialog가 dismiss시 발동한다.
@@ -78,11 +80,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setMainPage(ToDoAdapter adapter, String today) {
+        Button btnToDo = findViewById(R.id.btnToDoList);
+        Button btnNotToDo = findViewById(R.id.btnNotToDoList);
+
+        View.OnClickListener listener = v -> {
+          switch(v.getId()){
+              case R.id.btnToDoList :
+                  btnToDo.setBackgroundResource(R.drawable.button_corners3);
+                  btnToDo.setTextColor(Color.parseColor("#e1918b"));
+                  btnNotToDo.setBackgroundResource(R.drawable.button_corners2);
+                  btnNotToDo.setTextColor(Color.BLACK);
+                  break;
+              case R.id.btnNotToDoList:
+                  btnToDo.setBackgroundResource(R.drawable.button_corners2);
+                  btnToDo.setTextColor(Color.BLACK);
+                  btnNotToDo.setBackgroundResource(R.drawable.button_corners3);
+                  btnNotToDo.setTextColor(Color.parseColor("#e1918b"));
+                  break;
+          }
+            db.tableChange();
+          adapter.setData(db.select(today));
+          adapter.notifyDataSetChanged();
+        };
+
+        btnToDo.setOnClickListener(listener);
+        btnNotToDo.setOnClickListener(listener);
+    }
+
     private void init(String today){ //초기화
         btn_write=findViewById(R.id.btn_write);
         recyclerView = findViewById(R.id.re_View);
         db = new ToDoDatabase(this,"data",null,1);
-        dialog = new WritingActivity(MainActivity.this,today);
+        dialog = new WritingActivity(MainActivity.this,today,db);
     }
 
     private String setToday(){ //오늘의 날짜를 구하기
@@ -92,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
         return today;
     }
 
-    private ToDoAdapter createAdapter(){ //어댑터 생성
-        ToDoAdapter adapter = new ToDoAdapter();
+    private ToDoAdapter createAdapter(String today){ //어댑터 생성
+        ToDoAdapter adapter = new ToDoAdapter(db,today);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         return adapter;
