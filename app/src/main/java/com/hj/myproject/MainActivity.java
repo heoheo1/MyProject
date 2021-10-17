@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     TextView text_today;
 
-    HashMap<Integer,Boolean> checkData;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,24 +65,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         text_today=findViewById(R.id.text_today);
         text_today.setText(today);
 
-
         init();
         adapter = createAdapter();
 
         ArrayList<String> data = db.select();
+        HashMap<String,Integer> checkData = db.isChecked();
         setMainPage(adapter);
         adapter.setData(data);
+        adapter.setCheckData(checkData);
 
         sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
         gradient=sharedPreferences.getInt("gradient",0);
-
-        checkData = new HashMap<>(); //position과 boolean값 찾기
-        for(int i = 0; i < data.size(); i++){
-            boolean ch=sharedPreferences.getBoolean("ch"+i,false);
-            int position = sharedPreferences.getInt("position"+i,-1);
-            checkData.put(position,ch);
-        }
-        adapter.setCheckBox(checkData); //포지션과 boolean값을 hashMap에 넣고 보내기
         adapter.setgradient(gradient);
         adapter.notifyDataSetChanged();
 
@@ -104,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setMainPage(ToDoAdapter adapter) {
+
         Button btnToDo = findViewById(R.id.btnToDoList);
         Button btnNotToDo = findViewById(R.id.btnNotToDoList);
 
@@ -126,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             db.setTableName(tableName);
             adapter.setData(db.select());
+            adapter.setCheckData(db.isChecked());
             adapter.notifyDataSetChanged();
         };
 
@@ -141,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(getApplicationContext(), "리스트를 전체 지웁니다.", Toast.LENGTH_SHORT).show();
                     db.clear();
                     adapter.clear();
-                    checkData.clear();
                 }
             }).setPositiveButton("취소", new DialogInterface.OnClickListener() {
                 @Override

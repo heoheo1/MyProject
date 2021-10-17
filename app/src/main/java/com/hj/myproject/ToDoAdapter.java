@@ -24,17 +24,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder> {
+    final int CHECKED = 1;
+    final int NOT_CHECKED = 0;
 
     List<String> data = new ArrayList<>();
-    HashMap<Integer,Boolean> checkData = new HashMap<>();
-    int gradient;
+    HashMap<String, Integer> checkData;
+    int gradient, ch;
     ToDoDatabase db;
-    boolean ch;
     Context context;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
 
-    public ToDoAdapter(ToDoDatabase db,Context context) {
+    public ToDoAdapter(ToDoDatabase db, Context context) {
         this.db = db;
         this.context = context;
     }
@@ -42,7 +41,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     @NonNull
     @Override
     public ToDoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item, parent, false);
         return new ToDoViewHolder(view);
     }
 
@@ -52,52 +51,51 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         holder.checkToDo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //체크시 true/false로 넣어주기
-                if(isChecked){
-                    ch = true;
+                if (isChecked) {
+                    ch = CHECKED;
                     holder.re_grd.setBackgroundResource(R.drawable.gradientgray);
-                }else{
-                    ch = false;
-                    if(gradient==0) {
+                } else {
+                    ch = NOT_CHECKED;
+                    if (gradient == 0) {
                         holder.re_grd.setBackgroundResource(R.drawable.gradientpink);
-                    }else if(gradient==1){
+                    } else if (gradient == 1) {
                         holder.re_grd.setBackgroundResource(R.drawable.gradientgreen);
-                    }else if(gradient==2){
+                    } else if (gradient == 2) {
                         holder.re_grd.setBackgroundResource(R.drawable.gradientblue);
-                    }else if(gradient==3){
+                    } else if (gradient == 3) {
                         holder.re_grd.setBackgroundResource(R.drawable.gradientpowderblue);
-                    }else if(gradient==4){
+                    } else if (gradient == 4) {
                         holder.re_grd.setBackgroundResource(R.drawable.gradientgold);
-                    }else if(gradient==5){
+                    } else if (gradient == 5) {
                         holder.re_grd.setBackgroundResource(R.drawable.line_white);
                     }
                 }
             }
         });
 
-        if(checkData.get(position) != null) {
-            ch = checkData.get(position); //현재 해당하는 Key의 boolean값 꺼내기
-        }
-
-        if(gradient==0) {
+        if (gradient == 0) {
             holder.re_grd.setBackgroundResource(R.drawable.gradientpink);
-        }else if(gradient==1){
+        } else if (gradient == 1) {
             holder.re_grd.setBackgroundResource(R.drawable.gradientgreen);
-        }else if(gradient==2){
+        } else if (gradient == 2) {
             holder.re_grd.setBackgroundResource(R.drawable.gradientblue);
-        }else if(gradient==3){
+        } else if (gradient == 3) {
             holder.re_grd.setBackgroundResource(R.drawable.gradientpowderblue);
-        }else if(gradient==4){
+        } else if (gradient == 4) {
             holder.re_grd.setBackgroundResource(R.drawable.gradientgold);
-        }else if(gradient==5){
+        } else if (gradient == 5) {
             holder.re_grd.setBackgroundResource(R.drawable.line_white);
         }
 
-        if(ch==true) {
-            holder.checkToDo.setChecked(true);
-            holder.re_grd.setBackgroundResource(R.drawable.gradientgray);
-        }else{
-            holder.checkToDo.setChecked(false);
+        holder.checkToDo.setChecked(false);
+        if(checkData.get(data.get(position)) != null) {
+            int isChecked = checkData.get(data.get(position));
+            Log.d("yousin","todo : "+data.get(position)+", isChecked : "+isChecked);
+
+            if (isChecked == CHECKED) {
+                holder.checkToDo.setChecked(true);
+                holder.re_grd.setBackgroundResource(R.drawable.gradientgray);
+            }
         }
 
         holder.check_box_txt.setOnLongClickListener(v -> { //길게 클릭하였을때 (checkBox가 view의 크기의 대부분을 차지하고 있어서 checkBox로 사용)
@@ -106,8 +104,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             notifyDataSetChanged();
             return false;
         });
-
-        ch = false; // check의 마지막값이 true일경우 새롭게 데이터를 생성한다면 true로 체크되어 checkBox가 체크될것이다. 그래서 마지막엔 false로 초기화시켜주어야 한다.
     }
 
     @Override
@@ -115,19 +111,15 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         return data.size();
     }
 
-    public void setData(ArrayList<String> data){
+    public void setData(ArrayList<String> data) {
         this.data = data;
     }
 
-    public  void setgradient(int gradient){
-        this.gradient=gradient;
+    public void setgradient(int gradient) {
+        this.gradient = gradient;
     }
 
-    public void setCheckBox(HashMap<Integer,Boolean> checkData){
-        this.checkData = checkData;
-    }
-
-    class ToDoViewHolder extends RecyclerView.ViewHolder{
+    class ToDoViewHolder extends RecyclerView.ViewHolder {
         CheckBox checkToDo;
         TextView check_box_txt;
         RelativeLayout re_grd;
@@ -135,25 +127,22 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         public ToDoViewHolder(@NonNull View itemView) {
             super(itemView);
             checkToDo = itemView.findViewById(R.id.check_box);
-            re_grd =itemView.findViewById(R.id.re_grd);
-            check_box_txt=itemView.findViewById(R.id.check_box_txt);
+            re_grd = itemView.findViewById(R.id.re_grd);
+            check_box_txt = itemView.findViewById(R.id.check_box_txt);
 
-            checkToDo.setOnClickListener(v -> { //해당 체크박스를 클릭시, 현재 체크박스의 position과 ch를 sharedPreferences에 넣기
-                int position = getAdapterPosition();
-                sharedPreferences=context.getSharedPreferences("pref",context.MODE_PRIVATE);
-                editor=sharedPreferences.edit();
-                editor.putBoolean("ch"+position,ch);
-                editor.putInt("position"+position,position);
-                editor.commit();
+            checkToDo.setOnClickListener(v -> {
+                String todo = check_box_txt.getText().toString();
+                db.update(ch, todo);
             });
-
         }
-
-
     }
 
-    public void clear(){
+    public void clear() {
         data.clear();
         notifyDataSetChanged();
+    }
+
+    public void setCheckData(HashMap checkData){
+        this.checkData = checkData;
     }
 }

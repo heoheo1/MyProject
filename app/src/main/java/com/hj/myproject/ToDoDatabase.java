@@ -20,6 +20,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     private static ToDoDatabase database;
     Context context;
     String tableName = "tblToDo";
+    SQLiteDatabase db = getWritableDatabase();
 
 
     private ToDoDatabase(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -37,8 +38,8 @@ public class ToDoDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS tblToDo (todo TEXT PRIMARY KEY)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS tblNotToDo (todo TEXT PRIMARY KEY)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS tblToDo (todo TEXT PRIMARY KEY, isChecked INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS tblNotToDo (todo TEXT PRIMARY KEY, isChecked INTEGER)");
     }
 
     @Override
@@ -49,7 +50,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     public void insert(String todo){
         SQLiteDatabase db = getWritableDatabase();
         try {
-            String query = "INSERT INTO "+tableName+" VALUES('" + todo + "')";
+            String query = "INSERT INTO "+tableName+" VALUES('" + todo + "',"+0+")";
             db.execSQL(query);
         }catch(Exception e){
             e.printStackTrace();
@@ -58,7 +59,6 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     }
 
     public ArrayList<String> select(){
-        SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM "+ tableName;
         ArrayList<String> data = new ArrayList<>();
 
@@ -71,7 +71,6 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     }
 
     public void delete(String todo){
-        SQLiteDatabase db = getWritableDatabase();
         String query = "DELETE FROM "+tableName+" WHERE todo = '"+todo+"'";
 
         db.execSQL(query);
@@ -82,9 +81,29 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     }
 
     public void clear(){
-        SQLiteDatabase db = getWritableDatabase();
         String query = "DELETE FROM "+tableName;
 
         db.execSQL(query);
+    }
+
+    public void update(int isChecked, String todo){
+        String query = "UPDATE "+tableName+" SET isChecked = "+isChecked+" Where todo = '"+todo+"'";
+        Log.d("yousin","tableName : "+tableName+", todo : "+todo+" isChecked : "+isChecked);
+
+        db.execSQL(query);
+    }
+
+    public HashMap isChecked(){
+        String query = "SELECT * FROM "+tableName;
+        HashMap<String,Integer> data = new HashMap<>();
+
+        Cursor cursor = db.rawQuery(query,null);
+        while(cursor.moveToNext()){
+            int isCheck = Integer.parseInt(cursor.getString(1));
+            String todo = cursor.getString(0);
+
+            data.put(todo,isCheck);
+        }
+        return data;
     }
 }
