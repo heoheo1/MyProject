@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.ObjectAnimator;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -58,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
         String today = setToday();
 
-        init(today);
-        adapter = createAdapter(today);
-        ArrayList<String> data = db.select(today);
+        init();
+        adapter = createAdapter();
+        ArrayList<String> data = db.select();
         setMainPage(adapter,today);
         adapter.setData(data);
 
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() { //dialog가 dismiss시 발동한다.
             @Override
             public void onDismiss(DialogInterface dialog) {
-                adapter.setData(db.select(today));
+                adapter.setData(db.select());
                 adapter.notifyDataSetChanged();
             }
         });
@@ -109,15 +111,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
             }
             db.setTableName(tableName);
-            adapter.setData(db.select(today));
+            adapter.setData(db.select());
             adapter.notifyDataSetChanged();
         };
 
         btnToDo.setOnClickListener(listener);
         btnNotToDo.setOnClickListener(listener);
+
+        findViewById(R.id.wasteBasket).setOnClickListener(v -> { //휴지통을 클릭한다면 모든 데이터를 지워야 한다!
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("전체 삭제 하시겠습니까?")
+                    .setNegativeButton("삭제", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "리스트를 전체 지웁니다...", Toast.LENGTH_SHORT).show();
+                    db.clear();
+                    adapter.clear();
+                }
+            }).setPositiveButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            }); //builder
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        });//wasteBasket
     }
 
-    private void init(String today){ //초기화
+    private void init(){ //초기화
         btn_write=findViewById(R.id.btn_write);
         recyclerView = findViewById(R.id.re_View);
         fb_btn =findViewById(R.id.fb_btn);
@@ -134,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fb_gold.setOnClickListener(this);
         fb_lineWhite=findViewById(R.id.fb_lineWhite);
         fb_lineWhite.setOnClickListener(this);
-        db = new ToDoDatabase(this,"data",null,1);
-        dialog = new WritingActivity(MainActivity.this,today,db);
+        db = ToDoDatabase.getInstance(this);
+        dialog = new WritingActivity(MainActivity.this,db);
     }
 
     private String setToday(){ //오늘의 날짜를 구하기
@@ -145,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return today;
     }
 
-    private ToDoAdapter createAdapter(String today){ //어댑터 생성
-        ToDoAdapter adapter = new ToDoAdapter(db,today,this);
+    private ToDoAdapter createAdapter(){ //어댑터 생성
+        ToDoAdapter adapter = new ToDoAdapter(db,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         return adapter;

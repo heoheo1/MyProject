@@ -11,23 +11,34 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class ToDoDatabase extends SQLiteOpenHelper {
+    private static ToDoDatabase database;
     Context context;
     String tableName = "tblToDo";
 
-    public ToDoDatabase(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+
+    private ToDoDatabase(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         this.context = context;
     }
 
+    public static ToDoDatabase getInstance(@Nullable Context context){
+        if(database == null){
+            database = new ToDoDatabase(context,"database",null,1);
+        }
+        return database;
+    }
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS tblToDo (date TEXT, todo TEXT PRIMARY KEY)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS tblNotToDo (date TEXT, todo TEXT PRIMARY KEY)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS tblToDo (todo TEXT PRIMARY KEY)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS tblNotToDo (todo TEXT PRIMARY KEY)");
     }
 
     @Override
@@ -35,14 +46,14 @@ public class ToDoDatabase extends SQLiteOpenHelper {
 
     }
 
-    public void insert(String date,String todo){
+    public void insert(String todo){
         SQLiteDatabase db = getWritableDatabase();
         if(todo.equals("")){
             Toast.makeText(context, "텍스트를 작성 해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
-            String query = "INSERT INTO "+tableName+" VALUES('" + date + "','" + todo + "')";
+            String query = "INSERT INTO "+tableName+" VALUES('" + todo + "')";
             db.execSQL(query);
         }catch(Exception e){
             e.printStackTrace();
@@ -50,9 +61,9 @@ public class ToDoDatabase extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<String> select(String date){
+    public ArrayList<String> select(){
         SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT todo FROM "+ tableName +" WHERE date = '"+ date+"'";
+        String query = "SELECT * FROM "+ tableName;
         ArrayList<String> data = new ArrayList<>();
 
         Cursor cursor = db.rawQuery(query,null);
@@ -63,16 +74,22 @@ public class ToDoDatabase extends SQLiteOpenHelper {
         return data;
     }
 
-    public void delete(String date, String todo){
+    public void delete(String todo){
         SQLiteDatabase db = getWritableDatabase();
-        String query = "DELETE FROM "+tableName+" WHERE todo = '"+todo+"' AND date = '"+date+"'";
+        String query = "DELETE FROM "+tableName+" WHERE todo = '"+todo+"'";
 
         db.execSQL(query);
     }
 
     public void setTableName(String tableName){
-        Log.d("yousin",tableName);
         this.tableName = tableName;
+    }
+
+    public void clear(){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "DELETE FROM "+tableName;
+
+        db.execSQL(query);
     }
 
     //현재 테이블 확인
