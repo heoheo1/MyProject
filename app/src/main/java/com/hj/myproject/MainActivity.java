@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     TextView text_today;
 
+    HashMap<String,Integer> checkData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter = createAdapter();
 
         ArrayList<String> data = db.select();
-        HashMap<String,Integer> checkData = db.isChecked();
+        checkData = db.isChecked(); //시작할때 checkData를 확인한다.
         setMainPage(adapter);
         adapter.setData(data);
         adapter.setCheckData(checkData);
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             db.setTableName(tableName);
             adapter.setData(db.select());
-            adapter.setCheckData(db.isChecked());
+            adapter.setCheckData(db.isChecked()); // tbl이 바뀔때마다 새롭게 checkData를 select해야한다.
             adapter.notifyDataSetChanged();
         };
 
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(getApplicationContext(), "리스트를 전체 지웁니다.", Toast.LENGTH_SHORT).show();
                     db.clear();
                     adapter.clear();
+                    checkData.clear(); //만약 데이터 작성후 종료하지 않으면 HashMap에 데이터가 남아있다. 그러니 checkData를 전부 비워주어야 한다.
                 }
             }).setPositiveButton("취소", new DialogInterface.OnClickListener() {
                 @Override

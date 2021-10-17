@@ -87,12 +87,11 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             holder.re_grd.setBackgroundResource(R.drawable.line_white);
         }
 
-        holder.checkToDo.setChecked(false);
+        holder.checkToDo.setChecked(false); //기본적으론 false의 형태로 나와야 한다.
         if(checkData.get(data.get(position)) != null) {
             int isChecked = checkData.get(data.get(position));
-            Log.d("yousin","todo : "+data.get(position)+", isChecked : "+isChecked);
 
-            if (isChecked == CHECKED) {
+            if (isChecked == CHECKED) { // 만약 checkData를 통해 CHECKED를 확인하면 true의 형태로 바꿔준다.
                 holder.checkToDo.setChecked(true);
                 holder.re_grd.setBackgroundResource(R.drawable.gradientgray);
             }
@@ -101,6 +100,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         holder.check_box_txt.setOnLongClickListener(v -> { //길게 클릭하였을때 (checkBox가 view의 크기의 대부분을 차지하고 있어서 checkBox로 사용)
             db.delete(data.get(position)); // today날짜의 todo의 내용과 같은걸 지운다.
             data.remove(position); //recyclerView의 data를 지운다.
+            checkData = db.isChecked(); // checkBox의 데이터를 다시 검색해서 유지시킨다.
             notifyDataSetChanged();
             return false;
         });
