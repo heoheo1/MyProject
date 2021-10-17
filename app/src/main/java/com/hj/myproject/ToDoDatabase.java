@@ -38,7 +38,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     public void insert(String date,String todo){
         SQLiteDatabase db = getWritableDatabase();
         if(todo.equals("")){
-            Toast.makeText(context, "할일을 작성해주세요!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "텍스트를 작성 해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
@@ -46,7 +46,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
             db.execSQL(query);
         }catch(Exception e){
             e.printStackTrace();
-            Toast.makeText(context, "이미 등록된 내용입니다....", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "이미 등록된 내용입니다.", Toast.LENGTH_SHORT).show();
         }
     }
 

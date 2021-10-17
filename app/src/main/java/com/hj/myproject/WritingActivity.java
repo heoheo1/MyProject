@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
@@ -31,17 +32,22 @@ public class WritingActivity extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writing);
-        setCancelable(false); //바깥족 취소 불가
+        setCancelable(true); //바깥족 취소
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 배경 투명
 
         init(); // UI ID찾기
 
         findViewById(R.id.btnOK).setOnClickListener(v -> { //OK버튼 클릭시
             String todo = edtTodo.getText().toString();
-            db.currentTable();
-            db.insert(today,todo);
-            edtTodo.setText("");
-            dismiss();
+            if(!todo.isEmpty()){
+                db.currentTable();
+                db.insert(today,todo);
+                edtTodo.setText("");
+                dismiss();
+            }else{
+                Toast.makeText(getContext(), "텍스트를 입력해 주세요", Toast.LENGTH_SHORT).show();
+            }
+
         });
     }
 

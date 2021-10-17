@@ -49,14 +49,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
     @Override
     public void onBindViewHolder(@NonNull ToDoViewHolder holder, int position) {
         holder.check_box_txt.setText(data.get(position));
-
-        if(ch==true) {
-
-            holder.checkToDo.setChecked(true);
-            holder.re_grd.setBackgroundResource(R.drawable.gradientgray);
-        }else{
-            holder.checkToDo.setChecked(false);
-        }
         holder.checkToDo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -101,6 +93,12 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         }else if(gradient==5){
             holder.re_grd.setBackgroundResource(R.drawable.line_white);
         }
+        if(ch==true) {
+            holder.checkToDo.setChecked(true);
+            holder.re_grd.setBackgroundResource(R.drawable.gradientgray);
+        }else{
+            holder.checkToDo.setChecked(false);
+        }
 
         holder.check_box_txt.setOnLongClickListener(v -> { //길게 클릭하였을때 (checkBox가 view의 크기의 대부분을 차지하고 있어서 checkBox로 사용)
             db.delete(today,data.get(position)); // today날짜의 todo의 내용과 같은걸 지운다.
@@ -139,13 +137,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             re_grd =itemView.findViewById(R.id.re_grd);
             check_box_txt=itemView.findViewById(R.id.check_box_txt);
 
-
-            checkToDo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                }
-            });
 
         }
 
