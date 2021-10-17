@@ -75,8 +75,10 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             }
         });
 
-        ch = checkData.get(position); //현재 해당하는 Key의 boolean값 꺼내기
-        Log.d("yousin","adapter -> position : "+position+", ch : "+ch);
+        if(checkData.get(position) != null) {
+            ch = checkData.get(position); //현재 해당하는 Key의 boolean값 꺼내기
+            Log.d("yousin", "adapter -> position : " + position + ", ch : " + ch);
+        }
 
         if(gradient==0) {
             holder.re_grd.setBackgroundResource(R.drawable.gradientpink);
