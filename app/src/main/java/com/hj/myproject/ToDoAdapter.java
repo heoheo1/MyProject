@@ -77,7 +77,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
 
         if(checkData.get(position) != null) {
             ch = checkData.get(position); //현재 해당하는 Key의 boolean값 꺼내기
-            Log.d("yousin", "adapter -> position : " + position + ", ch : " + ch);
         }
 
         if(gradient==0) {
@@ -108,6 +107,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
             return false;
         });
 
+        ch = false; // check의 마지막값이 true일경우 새롭게 데이터를 생성한다면 true로 체크되어 checkBox가 체크될것이다. 그래서 마지막엔 false로 초기화시켜주어야 한다.
     }
 
     @Override
@@ -125,7 +125,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
 
     public void setCheckBox(HashMap<Integer,Boolean> checkData){
         this.checkData = checkData;
-//        Log.d("yousin","adapter ch : "+ch+", position : "+savePosition);
     }
 
     class ToDoViewHolder extends RecyclerView.ViewHolder{
@@ -145,7 +144,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
                 editor=sharedPreferences.edit();
                 editor.putBoolean("ch"+position,ch);
                 editor.putInt("position"+position,position);
-                Log.d("yousin","set position : "+position+", ch : "+ch);
                 editor.commit();
             });
 

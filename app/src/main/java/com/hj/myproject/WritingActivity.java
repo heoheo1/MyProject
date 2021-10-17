@@ -36,7 +36,6 @@ public class WritingActivity extends Dialog {
 
         findViewById(R.id.btnOK).setOnClickListener(v -> { //OK버튼 클릭시
             String todo = edtTodo.getText().toString();
-            db.currentTable();
             db.insert(todo);
             edtTodo.setText("");
             dismiss();

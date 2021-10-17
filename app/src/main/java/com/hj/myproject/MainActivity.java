@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     TextView text_today;
 
+    HashMap<Integer,Boolean> checkData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,17 +72,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter = createAdapter();
 
         ArrayList<String> data = db.select();
-        setMainPage(adapter,today);
+        setMainPage(adapter);
         adapter.setData(data);
 
         sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
         gradient=sharedPreferences.getInt("gradient",0);
 
-        HashMap<Integer,Boolean> checkData = new HashMap<>(); //position과 boolean값 찾기
+        checkData = new HashMap<>(); //position과 boolean값 찾기
         for(int i = 0; i < data.size(); i++){
             boolean ch=sharedPreferences.getBoolean("ch"+i,false);
             int position = sharedPreferences.getInt("position"+i,-1);
-            Log.d("yousin","main -> position : "+position+", ch : "+ch);
             checkData.put(position,ch);
         }
         adapter.setCheckBox(checkData); //포지션과 boolean값을 hashMap에 넣고 보내기
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void setMainPage(ToDoAdapter adapter, String today) {
+    private void setMainPage(ToDoAdapter adapter) {
         Button btnToDo = findViewById(R.id.btnToDoList);
         Button btnNotToDo = findViewById(R.id.btnNotToDoList);
 
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(getApplicationContext(), "리스트를 전체 지웁니다.", Toast.LENGTH_SHORT).show();
                     db.clear();
                     adapter.clear();
+                    checkData.clear();
                 }
             }).setPositiveButton("취소", new DialogInterface.OnClickListener() {
                 @Override

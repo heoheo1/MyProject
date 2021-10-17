@@ -87,9 +87,4 @@ public class ToDoDatabase extends SQLiteOpenHelper {
 
         db.execSQL(query);
     }
-
-    //현재 테이블 확인
-    public void currentTable(){
-        Log.d("yousin","현재 테이블 : "+tableName);
-    }
 }
