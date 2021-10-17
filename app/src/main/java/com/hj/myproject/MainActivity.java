@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String tableName;
     ToDoAdapter adapter;
     SharedPreferences sharedPreferences;
+    TextView text_today;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         
         String today = setToday();
+        text_today=findViewById(R.id.text_today);
+        text_today.setText(today);
+
 
         init();
         adapter = createAdapter();
@@ -124,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .setNegativeButton("삭제", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "리스트를 전체 지웁니다...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "리스트를 전체 지웁니다.", Toast.LENGTH_SHORT).show();
                     db.clear();
                     adapter.clear();
                 }
@@ -161,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private String setToday(){ //오늘의 날짜를 구하기
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String today = simpleDateFormat.format(date);
         return today;

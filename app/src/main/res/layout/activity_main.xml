@@ -10,7 +10,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_today"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/sandolloutline"
@@ -46,7 +46,7 @@
         android:layerType="software"
         android:src="@drawable/bg_white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/text_today"
         app:layout_constraintVertical_bias="1.0"
          />
     <LinearLayout
@@ -81,21 +81,20 @@
         <Button
             android:id="@+id/btnNotToDoList"
             android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
             android:layout_weight="5"
-            android:textSize="13sp"
             android:background="@drawable/button_corners2"
-            app:backgroundTint="@android:color/transparent"
-            app:backgroundTintMode="add"
             android:elevation="8dp"
-            android:textStyle="normal"
-            android:textColor="@color/black"
             android:fontFamily="@font/one_moblie_pop"
             android:text="Not To Do List"
-            android:layout_gravity="center"
-            />
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="normal"
+            app:backgroundTint="@android:color/transparent"
+            app:backgroundTintMode="add" />
 
 
     </LinearLayout>

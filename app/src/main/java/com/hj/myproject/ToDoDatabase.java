@@ -48,10 +48,6 @@ public class ToDoDatabase extends SQLiteOpenHelper {
 
     public void insert(String todo){
         SQLiteDatabase db = getWritableDatabase();
-        if(todo.equals("")){
-            Toast.makeText(context, "텍스트를 작성 해주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
         try {
             String query = "INSERT INTO "+tableName+" VALUES('" + todo + "')";
             db.execSQL(query);
