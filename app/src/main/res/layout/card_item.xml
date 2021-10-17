@@ -21,36 +21,40 @@
             android:id="@+id/re_grd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/gradientblue"
+            android:background="@drawable/line_white"
             android:orientation="horizontal"
             android:gravity="center"
             >
 
 
-        <CheckBox
-            android:id="@+id/check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="아침밥 꼭 챙겨 먹기"
-            android:textSize="15dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/todo_switch"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="1dp"
-
-
-           />
-
-            <Switch
-                android:layout_marginLeft="3dp"
-                android:id="@+id/todo_switch"
+            <CheckBox
+                android:id="@+id/check_box"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_centerVertical="true"
+                android:button="@null"
+                android:background="@drawable/custom_checkbox"
+               />
+            <TextView
+                android:id="@+id/check_box_txt"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                />
+                android:fontFamily="@font/one_moblie_pop"
+                android:layout_toRightOf="@+id/check_box"
+                android:layout_alignParentRight="true"/>
+
+
 
         </RelativeLayout>
 

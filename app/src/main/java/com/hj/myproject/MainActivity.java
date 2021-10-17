@@ -5,10 +5,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.ObjectAnimator;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -18,9 +25,12 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -33,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_write;
     WritingActivity dialog;
     RecyclerView recyclerView;
-    FloatingActionButton fb_btn,fb_pink,fb_green,fb_blue,fb_powderblue,fb_gold;
+    FloatingActionButton fb_btn,fb_pink,fb_green,fb_blue,fb_powderblue,fb_gold,fb_lineWhite;
     ToDoDatabase db;
     int gradient =0 ;
     boolean isFabOpen=true;
@@ -45,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
         String today = setToday();
 
         init(today);
@@ -56,8 +66,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
         gradient=sharedPreferences.getInt("gradient",0);
+        boolean che=sharedPreferences.getBoolean("ch",false);
+        adapter.setch(che);
         adapter.setgradient(gradient);
         adapter.notifyDataSetChanged();
+
 
         btn_write.setOnClickListener(v -> {
             dialog.show();
@@ -119,6 +132,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fb_powderblue.setOnClickListener(this);
         fb_gold= findViewById(R.id.fb_gold);
         fb_gold.setOnClickListener(this);
+        fb_lineWhite=findViewById(R.id.fb_lineWhite);
+        fb_lineWhite.setOnClickListener(this);
         db = new ToDoDatabase(this,"data",null,1);
         dialog = new WritingActivity(MainActivity.this,today,db);
     }
@@ -131,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private ToDoAdapter createAdapter(String today){ //어댑터 생성
-        ToDoAdapter adapter = new ToDoAdapter(db,today);
+        ToDoAdapter adapter = new ToDoAdapter(db,today,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         return adapter;
@@ -145,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ObjectAnimator.ofFloat(fb_blue, "translationY", 0f).start();//ObjectAnimator.ofFloat 애니메이션 클래스
             ObjectAnimator.ofFloat(fb_powderblue, "translationY", 0f).start();//ObjectAnimator.ofFloat 애니메이션 클래스
             ObjectAnimator.ofFloat(fb_gold, "translationY", 0f).start();//ObjectAnimator.ofFloat 애니메이션 클래스
+            ObjectAnimator.ofFloat(fb_lineWhite, "translationY", 0f).start();//ObjectAnimator.ofFloat 애니메이션 클래스
 
 
 //            fab.setImageResource(R.drawable.ic_add); //눌렀을때 원래 그림으로 바뀌게하겠다.플러스표시
@@ -154,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ObjectAnimator.ofFloat(fb_blue, "translationY", -600f).start();//ObjectAnimator.ofFloat 애니메이션 클래스
             ObjectAnimator.ofFloat(fb_powderblue, "translationY", -800f).start();//ObjectAnimator.ofFloat 애니메이션 클래스
             ObjectAnimator.ofFloat(fb_gold, "translationY", -1000f).start();//ObjectAnimator.ofFloat 애니메이션 클래스
+            ObjectAnimator.ofFloat(fb_lineWhite, "translationY", -1200f).start();//ObjectAnimator.ofFloat 애니메이션 클래스
 //            fab.setImageResource(R.drawable.ic_sub);//마이너스 표시
         }
         isFabOpen = !isFabOpen;
@@ -190,8 +207,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case (R.id.fb_gold):
                 fab(4);
                 break;
+            case (R.id.fb_lineWhite):
+                fab(5);
+                break;
 
         }
     }
-
 }
