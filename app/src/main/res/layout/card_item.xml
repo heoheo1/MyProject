@@ -32,27 +32,27 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
-                android:layout_centerVertical="true"
-                android:button="@null"
                 android:background="@drawable/custom_checkbox"
-               />
+                android:button="@null" />
+
             <TextView
                 android:id="@+id/check_box_txt"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/one_moblie_pop"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
                 android:layout_toRightOf="@+id/check_box"
-                android:layout_alignParentRight="true"/>
+                android:fontFamily="@font/one_moblie_pop"
+                android:textColor="@color/black"
+                android:textSize="15dp" />
 
 
 

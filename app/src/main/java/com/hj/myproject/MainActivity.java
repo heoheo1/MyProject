@@ -19,6 +19,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -67,17 +68,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         init();
         adapter = createAdapter();
+
         ArrayList<String> data = db.select();
         setMainPage(adapter,today);
         adapter.setData(data);
 
         sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
         gradient=sharedPreferences.getInt("gradient",0);
-        boolean che=sharedPreferences.getBoolean("ch",false);
-        adapter.setch(che);
+
+        HashMap<Integer,Boolean> checkData = new HashMap<>(); //position과 boolean값 찾기
+        for(int i = 0; i < data.size(); i++){
+            boolean ch=sharedPreferences.getBoolean("ch"+i,false);
+            int position = sharedPreferences.getInt("position"+i,-1);
+            Log.d("yousin","main -> position : "+position+", ch : "+ch);
+            checkData.put(position,ch);
+        }
+        adapter.setCheckBox(checkData); //포지션과 boolean값을 hashMap에 넣고 보내기
         adapter.setgradient(gradient);
         adapter.notifyDataSetChanged();
-
 
         btn_write.setOnClickListener(v -> {
             dialog.show();
@@ -140,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }); //builder
             AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
             alertDialog.show();
         });//wasteBasket
     }
