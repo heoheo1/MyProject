@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDismiss(DialogInterface dialog) {
                 adapter.setData(db.select());
+                adapter.setCheckData(db.isChecked());
                 adapter.notifyDataSetChanged();
             }
         });
