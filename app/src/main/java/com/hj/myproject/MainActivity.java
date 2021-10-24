@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,8 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ToDoAdapter adapter;
     SharedPreferences sharedPreferences;
     TextView text_today;
-
     HashMap<String,Integer> checkData;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String today = setToday();
         text_today=findViewById(R.id.text_today);
         text_today.setText(today);
-
         init();
         adapter = createAdapter();
 

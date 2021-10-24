@@ -74,6 +74,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
         String query = "DELETE FROM "+tableName+" WHERE todo = '"+todo+"'";
 
         db.execSQL(query);
+
     }
 
     public void setTableName(String tableName){

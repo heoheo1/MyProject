@@ -3,7 +3,10 @@ package com.hj.myproject;
 import androidx.annotation.NonNull;
 
 import android.app.Dialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,9 +22,11 @@ public class WritingActivity extends Dialog {
 
     EditText edtTodo;
     ToDoDatabase db;
+    Context context;
 
     public WritingActivity(@NonNull Context context,ToDoDatabase db) {
         super(context);
+        this.context=context;
         this.db = db;
     }
 
