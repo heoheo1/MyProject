@@ -1,5 +1,7 @@
 package com.hj.myproject;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -90,7 +92,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         holder.checkToDo.setChecked(false); //기본적으론 false의 형태로 나와야 한다.
         if(checkData.get(data.get(position)) != null) {
             int isChecked = checkData.get(data.get(position));
-
             if (isChecked == CHECKED) { // 만약 checkData를 통해 CHECKED를 확인하면 true의 형태로 바꿔준다.
                 holder.checkToDo.setChecked(true);
                 holder.re_grd.setBackgroundResource(R.drawable.gradientgray);
@@ -132,6 +133,9 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
 
             checkToDo.setOnClickListener(v -> {
                 String todo = check_box_txt.getText().toString();
+                AppWidgetManager appWidgetManager =AppWidgetManager.getInstance(context);
+                int appWidgetIds[] =appWidgetManager.getAppWidgetIds(new ComponentName(context,WidgetProvider.class));
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.widget_list);
                 db.update(ch, todo);
             });
         }

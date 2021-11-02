@@ -12,6 +12,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -57,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     TextView text_today;
     HashMap<String,Integer> checkData;
-
-
 
 
     @Override
@@ -137,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Toast.makeText(getApplicationContext(), "리스트를 전체 지웁니다.", Toast.LENGTH_SHORT).show();
+                    AppWidgetManager appWidgetManager =AppWidgetManager.getInstance(getApplicationContext());
+                    int appWidgetIds[] =appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(),WidgetProvider.class));
+                    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.widget_list);
                     db.clear();
                     adapter.clear();
                     checkData.clear(); //만약 데이터 작성후 종료하지 않으면 HashMap에 데이터가 남아있다. 그러니 checkData를 전부 비워주어야 한다.
@@ -248,5 +250,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        AppWidgetManager appWidgetManager =AppWidgetManager.getInstance(this);
+        int appWidgetIds[] =appWidgetManager.getAppWidgetIds(new ComponentName(this,WidgetProvider.class));
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.widget_list);
+        super.onDestroy();
     }
 }

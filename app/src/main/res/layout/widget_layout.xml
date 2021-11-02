@@ -5,25 +5,45 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_corners_white"
     android:padding="8dp" >
-
-    <TextView
-        android:id="@+id/title_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_box"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="To Do List"
+        android:orientation="horizontal"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/black"
-        android:fontFamily="@font/sandolloutline"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="center">
+        <Button
+            android:id="@+id/title_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To Do List"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_corners3"
 
+
+            />
+
+        <Button
+            android:id="@+id/title_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not To Do List"
+            android:padding="8dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_corners2"
+
+            />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="8dp"
         android:src="@drawable/ic_baseline_brightness_1_24"
         android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/title_name"
+        android:layout_below="@+id/layout_box"
         />
 
     <ImageView
@@ -32,8 +52,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_brightness_1_24"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/title_name"
-        android:layout_margin="10dp"
+       android:layout_below="@+id/layout_box"
+        android:layout_margin="8dp"
         />
 
     <ListView
@@ -41,14 +61,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="20dp"
+
         android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/bg_corners_white"
         android:elevation="2dp"
         android:padding="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/imageView3"
+        android:layout_below="@+id/imageView3"
         />
 </RelativeLayout>

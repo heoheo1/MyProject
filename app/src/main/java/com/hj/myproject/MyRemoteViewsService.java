@@ -12,4 +12,5 @@ public class MyRemoteViewsService extends RemoteViewsService {
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new MyRemoteViewsFactory(this.getApplicationContext());
     }
+
 }

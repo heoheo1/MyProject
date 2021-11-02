@@ -1,5 +1,7 @@
 package com.hj.myproject;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -102,8 +104,8 @@ public class ToDoDatabase extends SQLiteOpenHelper {
         while(cursor.moveToNext()){
             int isCheck = Integer.parseInt(cursor.getString(1));
             String todo = cursor.getString(0);
-
             data.put(todo,isCheck);
+
         }
         return data;
     }

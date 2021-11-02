@@ -1,15 +1,18 @@
 package com.hj.myproject;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MyRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+
 
     Context context;
     ArrayList<String> arrayList;
@@ -18,6 +21,7 @@ public class MyRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
 
     public MyRemoteViewsFactory(Context context) {
         this.context = context;
+
     }
 
     public void setData() {
@@ -37,6 +41,7 @@ public class MyRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
 
     @Override
     public void onCreate() {
+
         setData();
     }
 
