@@ -12,7 +12,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,10 +25,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hj.myproject.MyNotification.MyNotification;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FloatingActionButton fb_btn,fb_pink,fb_green,fb_blue,fb_powderblue,fb_gold,fb_lineWhite;
     ToDoDatabase db;
     int gradient =0 ;
-    boolean isFabOpen=true;
+    boolean isFabOpen=true, isNotify;
     String tableName;
     ToDoAdapter adapter;
     SharedPreferences sharedPreferences;
@@ -60,10 +61,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     HashMap<String,Integer> checkData;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
+        gradient=sharedPreferences.getInt("gradient",0);
         
         String today = setToday();
         text_today=findViewById(R.id.text_today);
@@ -77,8 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.setData(data);
         adapter.setCheckData(checkData);
 
-        sharedPreferences=getSharedPreferences("pref",MODE_PRIVATE);
-        gradient=sharedPreferences.getInt("gradient",0);
         adapter.setgradient(gradient);
         adapter.notifyDataSetChanged();
 
@@ -136,9 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Toast.makeText(getApplicationContext(), "리스트를 전체 지웁니다.", Toast.LENGTH_SHORT).show();
-                    AppWidgetManager appWidgetManager =AppWidgetManager.getInstance(getApplicationContext());
-                    int appWidgetIds[] =appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(),WidgetProvider.class));
-                    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.widget_list);
                     db.clear();
                     adapter.clear();
                     checkData.clear(); //만약 데이터 작성후 종료하지 않으면 HashMap에 데이터가 남아있다. 그러니 checkData를 전부 비워주어야 한다.
@@ -153,6 +153,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             alertDialog.setCancelable(false);
             alertDialog.show();
         });//wasteBasket
+
+        ImageView notificationImage = findViewById(R.id.notifi_img);
+
+        MyNotification notification = new MyNotification(this);
+        isNotify = sharedPreferences.getBoolean("isNotify",false);
+        notification.changeNotificationImage(notificationImage, isNotify);
+
+        notificationImage.setOnClickListener(v -> {
+            isNotify = !isNotify;
+            notification.changeNotificationImage(notificationImage, isNotify);
+            if(isNotify) {
+                notification.setNotificationAlarm("알림이 왔어여!!", "앱을 확인해주세요...", 8);
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        sharedPreferences.edit().putBoolean("isNotify",isNotify).commit();
+        super.onDestroy();
     }
 
     private void init(){ //초기화
@@ -250,13 +270,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        AppWidgetManager appWidgetManager =AppWidgetManager.getInstance(this);
-        int appWidgetIds[] =appWidgetManager.getAppWidgetIds(new ComponentName(this,WidgetProvider.class));
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.widget_list);
-        super.onDestroy();
     }
 }

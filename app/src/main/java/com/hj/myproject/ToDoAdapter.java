@@ -150,3 +150,4 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder
         this.checkData = checkData;
     }
 }
+

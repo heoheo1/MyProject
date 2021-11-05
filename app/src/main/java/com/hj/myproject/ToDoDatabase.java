@@ -97,6 +97,7 @@ public class ToDoDatabase extends SQLiteOpenHelper {
     }
 
     public HashMap isChecked(){
+        // 1이면 체크! 0이면 체크가 안됨
         String query = "SELECT * FROM "+tableName;
         HashMap<String,Integer> data = new HashMap<>();
 

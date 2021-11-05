@@ -17,8 +17,7 @@
             android:name=".MyRemoteViewsService"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.BIND_REMOTEVIEWS"></service>
-
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -32,7 +31,7 @@
             android:name=".WidgetProvider"
             android:label="위젯 테스트 (일반)">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
 

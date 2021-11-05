@@ -10,8 +10,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
@@ -47,6 +50,32 @@ public class WritingActivity extends Dialog {
             db.insert(todo);
             edtTodo.setText("");
             dismiss();
+        });
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        writingTextView();
+    }
+
+    private void writingTextView() {
+        TextView txtTodo = findViewById(R.id.txtToDo);
+        edtTodo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txtTodo.setText(edtTodo.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
     }
 
