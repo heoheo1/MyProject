@@ -60,9 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView text_today;
     HashMap<String,Integer> checkData;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,15 +153,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ImageView notificationImage = findViewById(R.id.notifi_img);
 
-        MyNotification notification = new MyNotification(this);
+        MyNotification notification = MyNotification.getInstance(this);
         isNotify = sharedPreferences.getBoolean("isNotify",false);
         notification.changeNotificationImage(notificationImage, isNotify);
+        if(isNotify) {
+            notification.setNotificationAlarm("알림이 왔어여!!", "앱을 확인해주세요...");
+        }else{
+            notification.cancelAlarm();
+        }
 
         notificationImage.setOnClickListener(v -> {
             isNotify = !isNotify;
             notification.changeNotificationImage(notificationImage, isNotify);
             if(isNotify) {
-                notification.setNotificationAlarm("알림이 왔어여!!", "앱을 확인해주세요...", 8);
+                notification.setNotificationAlarm("알림이 왔어여!!", "앱을 확인해주세요...");
+            }else{
+                notification.cancelAlarm();
             }
         });
     }
